@@ -334,33 +334,36 @@ namespace WerewolfClient
                 _event = EventEnum.JoinGame;
                 _eventPayloads["Success"] = FALSE;
                 _eventPayloads["Error"] = "Sign in first";
-            }
-            try
+            } else
             {
                 try
                 {
-                    _game = _gameEP.GameSessionSessionIDGet(_player.Session);
+                    try
+                    {
+                        _game = _gameEP.GameSessionSessionIDGet(_player.Session);
+                    } catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                        _game = null;
+                    }
+                    if (_game == null)
+                    {
+                        // Not in game, join one
+                        _game = _gameEP.GameSessionSessionIDPost(_player.Session);
+                    }
+                    Console.WriteLine("Join game #{0}", _game.Id);
+                    _event = EventEnum.JoinGame;
+                    _eventPayloads["Success"] = TRUE;
+                    _eventPayloads["Game.Id"] = _game.Id.ToString();
                 } catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
-                    _game = null;
+                    _event = EventEnum.JoinGame;
+                    _eventPayloads["Success"] = FALSE;
+                    _eventPayloads["Error"] = ex.ToString();
                 }
-                if (_game == null)
-                {
-                    // Not in game, join one
-                    _game = _gameEP.GameSessionSessionIDPost(_player.Session);
-                }
-                Console.WriteLine("Join game #{0}", _game.Id);
-                _event = EventEnum.JoinGame;
-                _eventPayloads["Success"] = TRUE;
-                _eventPayloads["Game.Id"] = _game.Id.ToString();
-            } catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                _event = EventEnum.JoinGame;
-                _eventPayloads["Success"] = FALSE;
-                _eventPayloads["Error"] = ex.ToString();
             }
+            
             NotifyAll();
         }
         public void SignIn(string server, string login, string password)
@@ -370,6 +373,10 @@ namespace WerewolfClient
                 InitilizeModel(server);
                 Player p = new Player(null, login, password, null, null, null, Player.StatusEnum.Offline);
                 _player = _playerEP.LoginPlayer(p);
+                if(_player.Session == null)
+                {
+                    throw new Exception();
+                }
                 Console.WriteLine(_player.Session);
                 _event = EventEnum.SignIn;
                 _eventPayloads["Success"] = TRUE;
@@ -391,7 +398,7 @@ namespace WerewolfClient
                 _player = playerEP.AddPlayer(p);
 
                 Console.WriteLine(_player.Id);
-                _event = EventEnum.SignIn;
+                _event = EventEnum.SignUp;
                 _eventPayloads["Success"] = TRUE;
             } catch (Exception ex)
             {
