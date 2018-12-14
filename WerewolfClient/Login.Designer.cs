@@ -35,10 +35,8 @@
             this.TbPassword = new System.Windows.Forms.TextBox();
             this.BtnSignIn = new System.Windows.Forms.Button();
             this.BtnSignUp = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TBServer = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -106,16 +104,6 @@
             this.BtnSignUp.UseVisualStyleBackColor = true;
             this.BtnSignUp.Click += new System.EventHandler(this.BtnSignUp_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(174, 11);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 86);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -143,7 +131,6 @@
             this.ClientSize = new System.Drawing.Size(1184, 749);
             this.Controls.Add(this.TBServer);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.BtnSignUp);
             this.Controls.Add(this.BtnSignIn);
             this.Controls.Add(this.TbPassword);
@@ -152,7 +139,6 @@
             this.Controls.Add(this.label1);
             this.Name = "Login";
             this.Text = "Login";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -166,7 +152,6 @@
         private System.Windows.Forms.TextBox TbPassword;
         private System.Windows.Forms.Button BtnSignIn;
         private System.Windows.Forms.Button BtnSignUp;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TBServer;
     }
