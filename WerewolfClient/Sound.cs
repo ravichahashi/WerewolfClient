@@ -11,9 +11,14 @@ namespace WerewolfClient
     {
         // ============================== ประกาศตัวแปรด้วย ============================== 
         private SoundPlayer _audiobackground;
-        
+
         //============================== ใช้ตัวนี้ ============================== 
-        private void _deadAudio()
+        public void stop_sound()
+        {
+            _audiobackground.Stop();
+        }
+
+        public void _deadAudio()
         {
             //============================== ฝากทำ Random ด้วย กูทำไม่ได้ 555 ==============================
             /*  if(มีคนถูกโหวตตาย){
@@ -39,7 +44,7 @@ namespace WerewolfClient
             */
         }
 
-        private void _votingaudioCount()
+        public void _votingaudioCount()
         {
             //============================== หากเหลือ 10 วิสุดท้าย ==============================
             /*if(time <= 10){
@@ -49,13 +54,13 @@ namespace WerewolfClient
             */
         }
 
-        private void _bgaudioLogin()
+        public void _bgaudioLogin()
         {
             _audiobackground = new SoundPlayer("game_backtrack.wav");
             _audiobackground.Play();
         }
 
-        private void _bgaudioNight()
+        public void _bgaudioNight()
         {
             _audiobackground = new SoundPlayer("mix_night.wav");
             _votingaudioCount();
@@ -63,14 +68,14 @@ namespace WerewolfClient
 
         }
 
-        private void _bgaudioSunshine()
+        public void _bgaudioSunshine()
         {
             _audiobackground = new SoundPlayer("mix_sunshine.wav");
             _votingaudioCount();
             _deadAudio();
         }
 
-        private void _checkWinner()
+        public void _checkWinner()
         {
             /*
             if(แพ้){

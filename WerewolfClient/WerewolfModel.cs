@@ -38,7 +38,6 @@ namespace WerewolfClient
         public const string FALSE = "False";
         private long? latestChatId = 0;
 
-
         public enum EventEnum
         {
             NOP = 1,
@@ -214,6 +213,7 @@ namespace WerewolfClient
                                 //TODO should show error, issue #13
                                 Console.WriteLine("Don't have role");
                                 _eventPayloads["Player.Role.Name"] = "";
+                                throw new Exception();
                             }
                         }
                     }
@@ -335,7 +335,6 @@ namespace WerewolfClient
                 _event = EventEnum.JoinGame;
                 _eventPayloads["Success"] = FALSE;
                 _eventPayloads["Error"] = "Sign in first";
-                Console.WriteLine(" ***line337 ");
             } else
             {
                 try
@@ -353,22 +352,13 @@ namespace WerewolfClient
                         // Not in game, join one
                         _game = _gameEP.GameSessionSessionIDPost(_player.Session);
                     }
-                    Console.WriteLine("gg55555");
-                    if(_game == null)
-                    {
-                        Console.WriteLine("nulllll");
-                    }
-                    else
-                    {
-                        Console.WriteLine("not nullllll");
-                    }
                     Console.WriteLine("Join game #{0}", _game.Id);
                     _event = EventEnum.JoinGame;
                     _eventPayloads["Success"] = TRUE;
                     _eventPayloads["Game.Id"] = _game.Id.ToString();
                 } catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString() + " ***line361 ");
+                    Console.WriteLine(ex.ToString());
                     _event = EventEnum.JoinGame;
                     _eventPayloads["Success"] = FALSE;
                     _eventPayloads["Error"] = ex.ToString();
@@ -433,7 +423,7 @@ namespace WerewolfClient
                 {
                     _gameEP.GameActionSessionIDActionIDTargetIDPost(_player.Session, _nightVoteAction.Id, int.Parse(target));
                 }
-                _event = EventEnum.SignIn;
+                _event = EventEnum.Vote;
                 _eventPayloads["Success"] = TRUE;
             }
             catch (Exception ex)

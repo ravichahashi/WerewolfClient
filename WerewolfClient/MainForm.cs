@@ -84,6 +84,7 @@ namespace WerewolfClient
                     }
                     else
                     {
+                        i++;
                         continue;
                     }
                     switch (role)
@@ -152,7 +153,14 @@ namespace WerewolfClient
                             BtnJoin.Visible = false;
                             AddChatMessage("You're joing the game #" + wm.EventPayloads["Game.Id"] + ", please wait for game start.");
                             _updateTimer.Interval = 1000;
-                            _updateTimer.Tick += new EventHandler(OnTimerEvent);
+                            try
+                            {
+                                _updateTimer.Tick += new EventHandler(OnTimerEvent);
+                            }catch(Exception ex)
+                            {
+                                MessageBox.Show("You don't have role.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                break;
+                            }
                             _updateTimer.Enabled = true;
                         }
                         else
@@ -223,9 +231,15 @@ namespace WerewolfClient
                         break;
                     case EventEnum.UpdateDay:
                         // TODO  catch parse exception here
-                        string tempDay = wm.EventPayloads["Game.Current.Day"];
-                        _currentDay = int.Parse(tempDay);
-                        LBDay.Text = tempDay;
+                        try
+                        {
+                            string tempDay = wm.EventPayloads["Game.Current.Day"];
+                            _currentDay = int.Parse(tempDay);
+                            LBDay.Text = tempDay;
+                        }catch(Exception ex)
+                        {
+
+                        }
                         break;
                     case EventEnum.UpdateTime:
                         string tempTime = wm.EventPayloads["Game.Current.Time"];
@@ -296,6 +310,7 @@ namespace WerewolfClient
                 }
                 // need to reset event
                 wm.Event = EventEnum.NOP;
+                wm.EventPayloads.Clear();
             }
         }
 
@@ -356,9 +371,15 @@ namespace WerewolfClient
         {
             Button btnPlayer = (Button)sender;
             int index = (int) btnPlayer.Tag;
-            if (players == null)
+            try
             {
-                // Nothing to do here;
+                if (players == null || players[index] == null)
+                {
+                    // Nothing to do here;
+                    return;
+                }
+            }catch(Exception ex)
+            {
                 return;
             }
             if (_actionActivated)

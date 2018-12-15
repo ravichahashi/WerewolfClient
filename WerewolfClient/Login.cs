@@ -14,10 +14,13 @@ namespace WerewolfClient
     {
         private WerewolfController controller;
         private Form _mainForm;
+        private Sound _sound;
         public Login(Form MainForm)
         {
             InitializeComponent();
             _mainForm = MainForm;
+            _sound = new Sound();
+            _sound._bgaudioLogin();
         }
 
         public void Notify(Model m)
@@ -30,6 +33,7 @@ namespace WerewolfClient
                     case WerewolfModel.EventEnum.SignIn:
                         if (wm.EventPayloads["Success"] == "True")
                         {
+                            _sound.stop_sound();
                             _mainForm.Visible = true;
                             this.Visible = false;
                         }
@@ -56,22 +60,21 @@ namespace WerewolfClient
         {
             controller = (WerewolfController)c;
         }
+        
+        private void BtnSignUp_Click_1(object sender, EventArgs e)
+        {
+            WerewolfCommand wcmd = new WerewolfCommand();
+            wcmd.Action = WerewolfCommand.CommandEnum.SignUp;
+            wcmd.Payloads = new Dictionary<string, string>() { { "Login", TbLogin.Text }, { "Password", TbPassword.Text }, { "Server", TBServer.Text } };
+            controller.ActionPerformed(wcmd);
+        }
 
-        private void BtnSignIn_Click(object sender, EventArgs e)
+        private void BtnSignIn_Click_1(object sender, EventArgs e)
         {
             WerewolfCommand wcmd = new WerewolfCommand();
             wcmd.Action = WerewolfCommand.CommandEnum.SignIn;
             wcmd.Payloads = new Dictionary<string, string>() { { "Login", TbLogin.Text }, { "Password", TbPassword.Text }, { "Server", TBServer.Text } };
             controller.ActionPerformed(wcmd);
         }
-
-        private void BtnSignUp_Click(object sender, EventArgs e)
-        {
-            WerewolfCommand wcmd = new WerewolfCommand();
-            wcmd.Action = WerewolfCommand.CommandEnum.SignUp;
-            wcmd.Payloads = new Dictionary<string, string>() { { "Login", TbLogin.Text}, { "Password",TbPassword.Text}, { "Server", TBServer.Text } };
-            controller.ActionPerformed(wcmd);
-        }
-        
     }
 }
