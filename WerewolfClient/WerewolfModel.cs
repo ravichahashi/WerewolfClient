@@ -23,7 +23,7 @@ namespace WerewolfClient
         private List<Action> _actions = null;
         private Player _player = null;
         public Player Player { get => _player; }
-        private Game _game = null;
+        public Game _game = null;
         private Role _playerRole = null;
         private List<Action> _playerActions = null;
         private Game.PeriodEnum? _currentPeriod;

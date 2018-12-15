@@ -77,10 +77,12 @@ namespace WerewolfClient
                     if (player.Name == wm.Player.Name)
                     {
                         role = _myRole;
+                        Console.WriteLine("My role is "+role);
                     }
                     else if (player.Role != null)
                     {
                         role = player.Role.Name;
+                        Console.WriteLine("Die Role is "+ role);
                     }
                     else
                     {
